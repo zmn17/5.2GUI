@@ -17,6 +17,10 @@ GPIO.setup(ledRed, GPIO.OUT)
 GPIO.setup(ledGreen, GPIO.OUT)
 GPIO.setup(ledBlue, GPIO.OUT)
 
+GPIO.output(ledRed, GPIO.LOW)
+GPIO.output(ledGreen, GPIO.LOW)
+GPIO.output(ledBlue, GPIO.LOW)
+
 pwm_redLED = GPIO.PWM(ledRed, 100)
 pwm_greenLED = GPIO.PWM(ledGreen, 100)
 pwm_blueLED = GPIO.PWM(ledBlue, 100)
@@ -42,13 +46,16 @@ def cleanup_and_exit():
     win.destroy()
 
 def update_red_brightness(value):
-    update_led_brightness(pwm_redLED, value)
+    brightness = 100 - int(value)
+    update_led_brightness(pwm_redLED, brightness)
 
 def update_green_brightness(value):
-    update_led_brightness(pwm_greenLED, value)
+    brightness = 100 - int(value)
+    update_led_brightness(pwm_greenLED, brightness)
 
 def update_blue_brightness(value):
-    update_led_brightness(pwm_blueLED, value)
+    brightness = 100 - int(value)
+    update_led_brightness(pwm_blueLED, brightness)
 
 # Set up sliders for each LED
 redLabel = tk.Label(win, text='Red')
@@ -68,11 +75,6 @@ blueSlider.pack(pady=20, padx=10)
 
 exitButton = tk.Button(win, text="Exit", command=cleanup_and_exit, width=10, height=2)
 exitButton.pack()
-
-# Set initial duty cycle to 0
-pwm_redLED.ChangeDutyCycle(0)
-pwm_greenLED.ChangeDutyCycle(0)
-pwm_blueLED.ChangeDutyCycle(0)
 
 
 win.mainloop()
